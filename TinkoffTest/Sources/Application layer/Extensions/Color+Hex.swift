@@ -1,9 +1,8 @@
 //
 //  Color+Hex.swift
-//  Kinoplan Cinema
 //
 //  Created by Ilya Kharabet on 05.10.16.
-//  Copyright © 2016 TK. All rights reserved.
+//  Copyright © 2016 IK. All rights reserved.
 //
 
 import Foundation

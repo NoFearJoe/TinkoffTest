@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -63,6 +64,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="yam-MO-YZ4" id="I1v-el-izF"/>
+                                    <outlet property="delegate" destination="yam-MO-YZ4" id="xCY-oR-1Ay"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -74,8 +79,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Otb-tC-RFy"/>
+                    <connections>
+                        <outlet property="dataSource" destination="yam-MO-YZ4" id="CZQ-bA-ql4"/>
+                        <outlet property="tableView" destination="ZCa-ZN-6Oh" id="akv-xi-xU7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzj-GR-dGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="yam-MO-YZ4" customClass="NewsDataSource" customModule="TinkoffTest" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="138" y="218"/>
         </scene>

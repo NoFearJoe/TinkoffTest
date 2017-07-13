@@ -1,16 +1,15 @@
 //
-//  NSData+JSON.swift
-//  Kinoplan Cinema
+//  Data+JSON.swift
 //
-//  Created by Igor Lemeshev on 12.10.16.
-//  Copyright © 2016 TK. All rights reserved.
+//  Created by Ilya Kharabet on 25.11.16.
+//  Copyright © 2016 IK. All rights reserved.
 //
 
 import Foundation
 
 extension Data {
     
-    static func from(json object: AnyObject) -> Data? {
+    static func from(json object: Any) -> Data? {
         do {
             return try JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
         } catch {

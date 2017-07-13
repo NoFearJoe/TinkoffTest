@@ -9,11 +9,17 @@
 import UIKit
 
 
-final class NewsDataSource: NSObject {
+protocol NewsItemsProvider {
+    var itemsCount: Int { get }
+    func item(at index: Int) -> NewsTitleItem?
+}
 
-    var newsItems: [Any] = []
+
+final class NewsDataSource: NSObject {
     
-    var didSelectItem: ((Int) -> Void)?
+    var itemsProvider: NewsItemsProvider!
+    
+    var didSelectNewsItem: ((NewsTitleItem) -> Void)?
 
 }
 
@@ -24,13 +30,13 @@ extension NewsDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsItems.count
+        return itemsProvider.itemsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsItemCell", for: indexPath)
         
-        cell.textLabel?.text = "asd"
+        cell.textLabel?.text = itemsProvider.item(at: indexPath.row)?.text
         
         return cell
     }
@@ -40,7 +46,9 @@ extension NewsDataSource: UITableViewDataSource {
 extension NewsDataSource: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectItem?(indexPath.row)
+        if let newsItem = itemsProvider.item(at: indexPath.row) {
+            didSelectNewsItem?(newsItem)
+        }
     }
 
 }

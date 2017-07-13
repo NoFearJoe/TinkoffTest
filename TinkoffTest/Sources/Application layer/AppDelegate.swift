@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         AppearanceManager.applyTheme()
         
+        if let newsView = (window?.rootViewController as? UINavigationController)?.topViewController as? NewsView {
+            NewsAssembly.assembly(with: newsView)
+        }
+        
         return true
     }
 
