@@ -19,5 +19,6 @@ extension NewsContentItem {
     @NSManaged public var content: String?
     @NSManaged public var creationDate: NSDate?
     @NSManaged public var lastModificationDate: NSDate?
+    @NSManaged public var titleItem: NewsTitleItem?
 
 }

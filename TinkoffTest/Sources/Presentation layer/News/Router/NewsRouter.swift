@@ -6,12 +6,20 @@
 //  Copyright © 2017 IK. All rights reserved.
 //
 
+import UIKit
 
 
-final class NewsRouter {
+final class NewsRouter: NewsRouterInput {
 
+    var transitionHandler: TransitionHandler!
+    
     func showNewsItem(_ newsItem: NewsTitleItem) {
-        
+        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewsItemView")
+        if let newsItemViewController = viewController as? NewsItemViewProtocol {
+            let moduleInput = NewsItemModuleAssembly.assembly(with: newsItemViewController)
+            moduleInput.setNewsTitleItem(newsItem)
+        }
+        transitionHandler.pushModule(with: viewController, animated: true)
     }
 
 }

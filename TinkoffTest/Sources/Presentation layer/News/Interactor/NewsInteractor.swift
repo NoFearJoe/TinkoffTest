@@ -6,20 +6,46 @@
 //  Copyright © 2017 IK. All rights reserved.
 //
 
-import CoreData
+import Foundation
 
 
-final class NewsInteractor {
+final class NewsInteractor: NewsInteractorProtocol {
 
+    weak var output: NewsInteractorOutput!
+    
     var newsService: NewsService = NewsService()
     
-    var news: [NewsTitleItem] = []
+    fileprivate var news: [NewsTitleItem] = []
+
+}
+
+extension NewsInteractor: NewsInteractorInput {
+
+    func obtainNews() {
+        newsService.fetchNews { [weak self] (news, error) in
+            guard let `self` = self else { return }
+            
+            if let error = error {
+                self.output.didReceiveError(error)
+            } else {
+                self.news = news
+                self.output.didFetchNews()
+            }
+        }
+        reloadNews()
+    }
     
-    func obtainNews(completion: @escaping () -> Void) {
-        newsService.obtainNews(completion: { [weak self] news in
-            self?.news = news
-            completion()
-        })
+    func reloadNews() {
+        newsService.loadNews { [weak self] (news, error) in
+            guard let `self` = self else { return }
+            
+            if let error = error {
+                self.output.didReceiveError(error)
+            } else {
+                self.news = news
+                self.output.didObtainNews()
+            }
+        }
     }
 
 }

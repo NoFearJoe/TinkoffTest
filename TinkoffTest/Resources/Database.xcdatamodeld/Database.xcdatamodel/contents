@@ -4,19 +4,26 @@
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lastModificationDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="titleItem" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="NewsTitleItem" inverseName="contentItem" inverseEntity="NewsTitleItem" syncable="YES"/>
     </entity>
     <entity name="NewsTitleItem" representedClassName="NewsTitleItem" syncable="YES">
-        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="publicationDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="contentItem" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NewsContentItem" inverseName="titleItem" inverseEntity="NewsContentItem" syncable="YES"/>
         <compoundIndexes>
             <compoundIndex>
                 <index value="publicationDate"/>
             </compoundIndex>
         </compoundIndexes>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="NewsTitleItem" positionX="-63" positionY="-18" width="128" height="90"/>
-        <element name="NewsContentItem" positionX="-54" positionY="18" width="128" height="90"/>
+        <element name="NewsContentItem" positionX="-54" positionY="18" width="128" height="105"/>
+        <element name="NewsTitleItem" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

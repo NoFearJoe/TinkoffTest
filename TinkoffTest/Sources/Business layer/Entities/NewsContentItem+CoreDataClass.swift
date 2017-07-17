@@ -16,8 +16,8 @@ public class NewsContentItem: NSManagedObject, Mappable {
         guard
 //            let titleItemDictionary = json["title"] as? [String: Any],
 //            let titleItem = NewsTitleItem(json: titleItemDictionary),
-            let creationDateNumber = (json["creationDateString"] as? [String: Any])?["milliseconds"] as? Double,
-            let lastModificationDateNumber = (json["lastModificationDateString"] as? [String: Any])?["milliseconds"] as? Double
+            let creationDateNumber = (json["creationDate"] as? [String: Any])?["milliseconds"] as? Double,
+            let lastModificationDateNumber = (json["lastModificationDate"] as? [String: Any])?["milliseconds"] as? Double
         else {
             return
         }

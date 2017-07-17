@@ -13,49 +13,52 @@ final class NewsService {
 
     let requestManager = RequestManager()
     
-    func obtainNews(completion: @escaping ([NewsTitleItem]) -> Void) {
-        completion(fetchNews())
+    func loadNews(completion: @escaping ([NewsTitleItem], Error?) -> Void) {
         requestManager.request(path: "https://api.tinkoff.ru/v1/news") { (data, error) in
             if let error = error {
-                print(error)
+                completion([], error)
             }
             if let data = data {
-                DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async { [weak self] in
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async { [weak self] in
                     let context = CoreDataManager.shared.persistentContainer.newBackgroundContext()
+                    context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
                     JSONMapper().mapJSONArray(data: data,
                                               key: "payload",
                                               entityClassName: "NewsTitleItem",
                                               context: context)
                     
-                    self?.deleteOldNews(context: context) {
-                        try! context.save()
-                        
-                        DispatchQueue.main.async { [weak self] in
-                            let news = self?.fetchNews() ?? []
-                            completion(news)
-                        }
+                    do {
+                        try context.save()
+                        let fetchedNews = try self?.fetchNews() ?? []
+                        completion(fetchedNews, nil)
+                    } catch(let error) {
+                        completion([], error)
                     }
                 }
             }
         }
     }
     
-    func fetchNews() -> [NewsTitleItem] {
+    func fetchNews(completion: @escaping ([NewsTitleItem], Error?) -> Void) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async { [weak self] in
+            do {
+                let fetchedNews = try self?.fetchNews() ?? []
+                completion(fetchedNews, nil)
+            } catch(let error) {
+                completion([], error)
+            }
+        }
+    }
+    
+    
+    fileprivate func fetchNews() throws -> [NewsTitleItem] {
         let fetchRequest: NSFetchRequest<NewsTitleItem> = NewsTitleItem.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "publicationDate", ascending: false)
         ]
+        fetchRequest.fetchBatchSize = 30
         
-        return (try? CoreDataManager.shared.persistentContainer.viewContext.fetch(fetchRequest)) ?? []
-    }
-    
-    fileprivate func deleteOldNews(context: NSManagedObjectContext, completion: @escaping () -> Void) {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: NewsTitleItem.fetchRequest())
-            let _ = try? context.execute(deleteRequest)
-            
-            completion()
-        }
+        return try CoreDataManager.shared.persistentContainer.viewContext.fetch(fetchRequest)
     }
 
 }

@@ -19,5 +19,6 @@ extension NewsTitleItem {
     @NSManaged public var id: String?
     @NSManaged public var text: String?
     @NSManaged public var publicationDate: NSDate?
+    @NSManaged public var contentItem: NewsContentItem?
 
 }
