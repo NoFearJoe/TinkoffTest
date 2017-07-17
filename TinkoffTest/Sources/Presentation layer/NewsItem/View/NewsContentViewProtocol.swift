@@ -1,5 +1,5 @@
 //
-//  NewsItemViewProtocol.swift
+//  NewsContentViewProtocol.swift
 //  TinkoffTest
 //
 //  Created by Ilya Kharabet on 13.07.17.
@@ -9,15 +9,15 @@
 import class Foundation.NSAttributedString
 
 
-protocol NewsItemViewProtocol: class, NewsItemViewInput {
-    var output: NewsItemViewOutput! { get set }
+protocol NewsContentViewProtocol: class, NewsContentViewInput {
+    var output: NewsContentViewOutput! { get set }
 }
 
-protocol NewsItemViewInput: class {
+protocol NewsContentViewInput: class {
     func setLoading(_ loading: Bool)
     func showNewsContent(_ newsContent: NSAttributedString)
 }
 
-protocol NewsItemViewOutput: class {
+protocol NewsContentViewOutput: class {
     func onAppear()
 }

@@ -1,5 +1,5 @@
 //
-//  NewsItemInteractor.swift
+//  NewsContentInteractor.swift
 //  TinkoffTest
 //
 //  Created by Ilya Kharabet on 13.07.17.
@@ -7,16 +7,15 @@
 //
 
 
-enum NewsItemInteractorError: Error {
+enum NewsContentInteractorError: Error {
     case noData
 }
 
 
-final class NewsItemInteractor: NewsItemInteractorProtocol {
+final class NewsContentInteractor: NewsContentInteractorProtocol {
 
-    weak var output: NewsItemInteractorOutput!
-    
-    var newsItemService: NewsItemService = NewsItemService()
+    weak var output: NewsContentInteractorOutput!
+    var newsContentService: NewsContentServiceProtocol!
     
     fileprivate var newsItem: NewsTitleItem!
     
@@ -27,28 +26,28 @@ final class NewsItemInteractor: NewsItemInteractorProtocol {
         } else if let newsContent = newsContent {
             self.output.didLoadNewsContent(newsContent)
         } else {
-            self.output.didReceiveError(NewsItemInteractorError.noData)
+            self.output.didReceiveError(NewsContentInteractorError.noData)
         }
     }
 
 }
 
-extension NewsItemInteractor: NewsItemInteractorInput {
+extension NewsContentInteractor: NewsContentInteractorInput {
 
-    func setNewsItem(_ newsItem: NewsTitleItem) {
+    func setNewsContent(_ newsItem: NewsTitleItem) {
         self.newsItem = newsItem
     }
     
     func obtainNewsContent() {
         if let id = newsItem.id {
-            newsItemService.fetchNewsContent(id: id, completion: { [weak self] (newsContent, error) in
+            newsContentService.fetchNewsContent(id: id, completion: { [weak self] (newsContent, error) in
                 self?.handleNewsContentResponse(newsContent: newsContent, error: error)
             })
-            newsItemService.obtainNewsContent(newsTitleID: id) { [weak self] newsContent, error in
+            newsContentService.obtainNewsContent(newsTitleID: id) { [weak self] newsContent, error in
                 self?.handleNewsContentResponse(newsContent: newsContent, error: error)
             }
         } else {
-            output.didReceiveError(NewsItemInteractorError.noData)
+            output.didReceiveError(NewsContentInteractorError.noData)
         }
     }
 

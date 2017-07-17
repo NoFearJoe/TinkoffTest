@@ -12,8 +12,7 @@ import Foundation
 final class NewsInteractor: NewsInteractorProtocol {
 
     weak var output: NewsInteractorOutput!
-    
-    var newsService: NewsService = NewsService()
+    var newsService: NewsServiceProtocol!
     
     fileprivate var news: [NewsTitleItem] = []
 

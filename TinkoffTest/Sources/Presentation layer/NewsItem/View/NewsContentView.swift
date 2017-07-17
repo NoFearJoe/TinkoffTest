@@ -1,5 +1,5 @@
 //
-//  NewsItemView.swift
+//  NewsContentView.swift
 //  TinkoffTest
 //
 //  Created by Ilya Kharabet on 13.07.17.
@@ -10,11 +10,11 @@ import UIKit
 import class Foundation.NSAttributedString
 
 
-final class NewsItemView: UIViewController, NewsItemViewProtocol {
+final class NewsContentView: UIViewController, NewsContentViewProtocol {
 
     @IBOutlet fileprivate(set) weak var contentView: UITextView!
     
-    var output: NewsItemViewOutput!
+    var output: NewsContentViewOutput!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,7 @@ final class NewsItemView: UIViewController, NewsItemViewProtocol {
     
 }
 
-extension NewsItemView: NewsItemViewInput {
+extension NewsContentView: NewsContentViewInput {
 
     func setLoading(_ loading: Bool) {
         DispatchQueue.main.async {

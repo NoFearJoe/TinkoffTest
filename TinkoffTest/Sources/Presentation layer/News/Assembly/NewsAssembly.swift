@@ -27,6 +27,7 @@ final class NewsAssembly {
         view.dataSource = viewDataSource
         
         interactor.output = presenter
+        interactor.newsService = NewsService()
     }
 
 }

@@ -89,10 +89,10 @@
             </objects>
             <point key="canvasLocation" x="138" y="218"/>
         </scene>
-        <!--News Item View-->
+        <!--News Content View-->
         <scene sceneID="pZ3-lK-JAQ">
             <objects>
-                <viewController storyboardIdentifier="NewsItemView" id="r3s-To-0GE" customClass="NewsItemView" customModule="TinkoffTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsContentView" id="r3s-To-0GE" customClass="NewsContentView" customModule="TinkoffTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0ok-5b-Cel"/>
                         <viewControllerLayoutGuide type="bottom" id="efa-JT-spE"/>

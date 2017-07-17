@@ -15,8 +15,8 @@ final class NewsRouter: NewsRouterInput {
     
     func showNewsItem(_ newsItem: NewsTitleItem) {
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewsItemView")
-        if let newsItemViewController = viewController as? NewsItemViewProtocol {
-            let moduleInput = NewsItemModuleAssembly.assembly(with: newsItemViewController)
+        if let newsItemViewController = viewController as? NewsContentViewProtocol {
+            let moduleInput = NewsContentModuleAssembly.assembly(with: newsItemViewController)
             moduleInput.setNewsTitleItem(newsItem)
         }
         transitionHandler.pushModule(with: viewController, animated: true)

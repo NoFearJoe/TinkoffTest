@@ -9,7 +9,13 @@
 import CoreData
 
 
-final class NewsService {
+protocol NewsServiceProtocol: class {
+    func loadNews(completion: @escaping ([NewsTitleItem], Error?) -> Void)
+    func fetchNews(completion: @escaping ([NewsTitleItem], Error?) -> Void)
+}
+
+
+final class NewsService: NewsServiceProtocol {
 
     let requestManager = RequestManager()
     

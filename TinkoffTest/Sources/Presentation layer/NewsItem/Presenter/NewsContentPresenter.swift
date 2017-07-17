@@ -1,5 +1,5 @@
 //
-//  NewsItemPresenter.swift
+//  NewsContentPresenter.swift
 //  TinkoffTest
 //
 //  Created by Ilya Kharabet on 13.07.17.
@@ -9,14 +9,14 @@
 
 
 
-final class NewsItemPresenter {
+final class NewsContentPresenter {
 
-    var interactor: NewsItemInteractorInput!
-    weak var view: NewsItemViewInput!
+    var interactor: NewsContentInteractorInput!
+    weak var view: NewsContentViewInput!
 
 }
 
-extension NewsItemPresenter: NewsItemViewOutput {
+extension NewsContentPresenter: NewsContentViewOutput {
 
     func onAppear() {
         view.setLoading(true)
@@ -25,15 +25,15 @@ extension NewsItemPresenter: NewsItemViewOutput {
 
 }
 
-extension NewsItemPresenter: NewsItemModuleInput {
+extension NewsContentPresenter: NewsContentModuleInput {
 
     func setNewsTitleItem(_ newsTitleItem: NewsTitleItem) {
-        interactor.setNewsItem(newsTitleItem)
+        interactor.setNewsContent(newsTitleItem)
     }
 
 }
 
-extension NewsItemPresenter: NewsItemInteractorOutput {
+extension NewsContentPresenter: NewsContentInteractorOutput {
 
     func didLoadNewsContent(_ newsContent: NewsContentItem) {
         if let content = newsContent.content?.fromHTML() {

@@ -1,5 +1,5 @@
 //
-//  NewsItemPresenterProtocol.swift
+//  NewsContentPresenterProtocol.swift
 //  TinkoffTest
 //
 //  Created by Ilya Kharabet on 14.07.17.
@@ -7,6 +7,6 @@
 //
 
 
-protocol NewsItemModuleInput: class {
+protocol NewsContentModuleInput: class {
     func setNewsTitleItem(_ newsTitleItem: NewsTitleItem)
 }

@@ -1,5 +1,5 @@
 //
-//  NewsItemService.swift
+//  NewsContentService.swift
 //  TinkoffTest
 //
 //  Created by Ilya Kharabet on 13.07.17.
@@ -10,7 +10,13 @@ import Foundation
 import CoreData
 
 
-final class NewsItemService {
+protocol NewsContentServiceProtocol: class {
+    func obtainNewsContent(newsTitleID id: String, completion: @escaping (NewsContentItem?, Error?) -> Void)
+    func fetchNewsContent(id: String, completion: @escaping (NewsContentItem?, Error?) -> Void)
+}
+
+
+final class NewsContentService: NewsContentServiceProtocol {
     
     let requestManager = RequestManager()
     
