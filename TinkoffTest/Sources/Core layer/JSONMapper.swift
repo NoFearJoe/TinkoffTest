@@ -26,7 +26,7 @@ final class JSONMapper {
         if let key = key {
             jsonArray = (jsonData as? JSON)?[key] as? [JSON]
         }
-        return jsonArray?.flatMap { element in
+        return jsonArray?.compactMap { element in
             if let description = NSEntityDescription.entity(forEntityName: entityClassName, in: context) {
                 if let entity = NSManagedObject(entity: description, insertInto: context) as? Mappable {
                     entity.mapping(json: element)

@@ -13,7 +13,7 @@ extension String {
     func fromHTML() -> NSAttributedString? {
         if let data = self.data(using: self.fastestEncoding, allowLossyConversion: true) {
             return try? NSAttributedString(data: data,
-                                           options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                           options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                            documentAttributes: nil)
         }
         return nil

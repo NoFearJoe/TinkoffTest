@@ -8,8 +8,7 @@
 
 import class Foundation.NSAttributedString
 
-
-protocol NewsContentViewProtocol: class, NewsContentViewInput {
+protocol NewsContentViewProtocol: NewsContentViewInput {
     var output: NewsContentViewOutput! { get set }
 }
 

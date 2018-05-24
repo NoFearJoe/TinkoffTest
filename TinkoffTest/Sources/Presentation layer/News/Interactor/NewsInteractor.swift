@@ -14,7 +14,7 @@ final class NewsInteractor: NewsInteractorProtocol {
     weak var output: NewsInteractorOutput!
     var newsService: NewsServiceProtocol!
     
-    fileprivate var news: [NewsTitleItem] = []
+    private var news: [NewsTitleItem] = []
 
 }
 
@@ -28,7 +28,7 @@ extension NewsInteractor: NewsInteractorInput {
                 self.output.didReceiveError(error)
             } else {
                 self.news = news
-                self.output.didFetchNews()
+                self.output.didFetchNews(count: news.count)
             }
         }
         reloadNews()
@@ -42,7 +42,7 @@ extension NewsInteractor: NewsInteractorInput {
                 self.output.didReceiveError(error)
             } else {
                 self.news = news
-                self.output.didObtainNews()
+                self.output.didObtainNews(count: news.count)
             }
         }
     }

@@ -25,7 +25,7 @@ final class NewsService: NewsServiceProtocol {
                 completion([], error)
             }
             if let data = data {
-                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async { [weak self] in
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
                     let context = CoreDataManager.shared.persistentContainer.newBackgroundContext()
                     context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
                     JSONMapper().mapJSONArray(data: data,
@@ -35,7 +35,7 @@ final class NewsService: NewsServiceProtocol {
                     
                     do {
                         try context.save()
-                        let fetchedNews = try self?.fetchNews() ?? []
+                        let fetchedNews = try self.fetchNews()
                         completion(fetchedNews, nil)
                     } catch(let error) {
                         completion([], error)
@@ -46,9 +46,9 @@ final class NewsService: NewsServiceProtocol {
     }
     
     func fetchNews(completion: @escaping ([NewsTitleItem], Error?) -> Void) {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async { [weak self] in
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             do {
-                let fetchedNews = try self?.fetchNews() ?? []
+                let fetchedNews = try self.fetchNews()
                 completion(fetchedNews, nil)
             } catch(let error) {
                 completion([], error)
@@ -62,7 +62,7 @@ final class NewsService: NewsServiceProtocol {
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "publicationDate", ascending: false)
         ]
-        fetchRequest.fetchBatchSize = 30
+        fetchRequest.fetchBatchSize = 10
         
         return try CoreDataManager.shared.persistentContainer.viewContext.fetch(fetchRequest)
     }

@@ -36,7 +36,7 @@ final class RequestManager {
         
         URLSession
             .shared
-            .dataTask(with: request) { completion($0.0, $0.2) }
+            .dataTask(with: request) { completion($0, $2) }
             .resume()
     }
     

@@ -7,8 +7,8 @@
 //
 
 
-protocol NewsContentInteractorProtocol: class, NewsContentInteractorInput {
-    weak var output: NewsContentInteractorOutput! { get set }
+protocol NewsContentInteractorProtocol: NewsContentInteractorInput {
+    var output: NewsContentInteractorOutput! { get set }
 }
 
 protocol NewsContentInteractorInput: class {

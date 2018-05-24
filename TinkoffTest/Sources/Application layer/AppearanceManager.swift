@@ -18,8 +18,8 @@ final class AppearanceManager {
         navigationBar.barTintColor = UIColor("FFE817")
         navigationBar.tintColor = UIColor("0D0D0D")
         navigationBar.titleTextAttributes = [
-            NSFontAttributeName: UIFont.systemFont(ofSize: 21),
-            NSForegroundColorAttributeName: UIColor("0D0D0D")
+            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 21),
+            NSAttributedStringKey.foregroundColor: UIColor("0D0D0D")
         ]
         navigationBar.shadowImage = UIImage.shadowImage(with: UIColor("534B04"))
     }

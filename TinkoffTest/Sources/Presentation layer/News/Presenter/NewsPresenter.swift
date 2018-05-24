@@ -37,17 +37,20 @@ extension NewsPresenter: NewsViewOutput {
 
 extension NewsPresenter: NewsInteractorOutput {
 
-    func didFetchNews() {
+    func didFetchNews(count: Int) {
         view.reloadNews()
+        if count > 0  {
+            view.setLoading(false)
+        }
     }
     
-    func didObtainNews() {
+    func didObtainNews(count: Int) {
         view.reloadNews()
         view.setLoading(false)
     }
     
     func didReceiveError(_ error: Error) {
-        print(error)
+        view.setLoading(false)
     }
 
 }

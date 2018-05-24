@@ -6,8 +6,8 @@
 //  Copyright © 2017 IK. All rights reserved.
 //
 
-protocol NewsInteractorProtocol: class, NewsInteractorInput {
-    weak var output: NewsInteractorOutput! { get set }
+protocol NewsInteractorProtocol: NewsInteractorInput {
+    var output: NewsInteractorOutput! { get set }
 }
 
 
@@ -17,7 +17,7 @@ protocol NewsInteractorInput: class {
 }
 
 protocol NewsInteractorOutput: class {
-    func didFetchNews()
-    func didObtainNews()
+    func didFetchNews(count: Int)
+    func didObtainNews(count: Int)
     func didReceiveError(_ error: Error)
 }

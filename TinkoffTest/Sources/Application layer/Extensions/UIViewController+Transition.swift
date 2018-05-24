@@ -16,8 +16,8 @@ public protocol TransitionHandler: class {
 
 public extension TransitionHandler where Self: UIViewController {
     func pushModule(with viewController: UIViewController, animated: Bool = true) {
-        DispatchQueue.main.async { [weak self] _ in
-            if let parentNavigationController = self?.parent as? UINavigationController {
+        DispatchQueue.main.async {
+            if let parentNavigationController = self.parent as? UINavigationController {
                 parentNavigationController.pushViewController(viewController, animated: animated)
             } else if let navigationController = self as? UINavigationController {
                 navigationController.pushViewController(viewController, animated: animated)
@@ -26,8 +26,8 @@ public extension TransitionHandler where Self: UIViewController {
     }
     
     func presentModule(with viewController: UIViewController, animated: Bool = true) {
-        DispatchQueue.main.async { [weak self] _ in
-            self?.present(viewController, animated: animated, completion: nil)
+        DispatchQueue.main.async {
+            self.present(viewController, animated: animated, completion: nil)
         }
     }
 }

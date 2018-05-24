@@ -15,7 +15,7 @@ final class NewsView: UIViewController, NewsViewProtocol {
     
     fileprivate let refreshControl = UIRefreshControl()
     
-    var dataSource: NewsDataSource!
+    @objc var dataSource: NewsDataSource!
     
     
     var output: NewsViewOutput!
@@ -53,7 +53,7 @@ final class NewsView: UIViewController, NewsViewProtocol {
         tableView.addSubview(refreshControl)
     }
     
-    func refresh() {
+    @objc func refresh() {
         refreshControl.beginRefreshing()
         output.onRefresh()
     }

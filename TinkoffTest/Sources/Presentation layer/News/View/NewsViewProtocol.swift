@@ -6,8 +6,7 @@
 //  Copyright © 2017 IK. All rights reserved.
 //
 
-
-protocol NewsViewProtocol: class, NewsViewInput, TransitionHandler {
+protocol NewsViewProtocol: NewsViewInput, TransitionHandler {
     var output: NewsViewOutput! { get }
 }
 
