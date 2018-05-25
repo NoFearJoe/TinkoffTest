@@ -8,12 +8,16 @@
 
 import Foundation
 
+protocol Mock: class {}
 
-final class NewsPresenter {
+final class NewsPresenter: CachedNewsInteractor, RemoteNewsInteractor, NewsItemRoute, Mock {
 
-    var interactor: NewsInteractorInput!
-    var router: NewsRouterInput!
     weak var view: NewsViewInput!
+    weak var transitionHandler: TransitionHandler!
+    
+    var newsService: NewsServiceProtocol!
+    
+    private var news: [NewsTitleItem] = []
 
 }
 
@@ -21,36 +25,60 @@ extension NewsPresenter: NewsViewOutput {
 
     func onAppear() {
         view.setLoading(true)
-        interactor.obtainNews()
+        fetchNews()
+        requestNews()
     }
     
     func onRefresh() {
         view.setLoading(true)
-        interactor.reloadNews()
+        requestNews()
     }
     
     func didSelectNewsItem(_ newsItem: NewsTitleItem) {
-        router.showNewsItem(newsItem)
+        showNewsItem(newsItem)
     }
 
 }
 
-extension NewsPresenter: NewsInteractorOutput {
+extension NewsPresenter {
 
-    func didFetchNews(count: Int) {
-        view.reloadNews()
-        if count > 0  {
-            view.setLoading(false)
+    func fetchNews() {
+        fetchNews { [weak self] news, error in
+            if let news = news {
+                self?.news = news
+                self?.view.reloadNews()
+                if news.count > 0  {
+                    self?.view.setLoading(false)
+                }
+            } else {
+                self?.view.setLoading(false)
+            }
         }
     }
     
-    func didObtainNews(count: Int) {
-        view.reloadNews()
-        view.setLoading(false)
-    }
-    
-    func didReceiveError(_ error: Error) {
-        view.setLoading(false)
+    func requestNews() {
+        requestNews { [weak self] news, error in
+            if let news = news {
+                self?.news = news
+                self?.view.reloadNews()
+                self?.view.setLoading(false)
+            } else {
+                self?.view.setLoading(false)
+            }
+        }
     }
 
+}
+
+extension NewsPresenter: NewsItemsProvider {
+    
+    var itemsCount: Int {
+        return news.count
+    }
+    
+    func item(at index: Int) -> NewsTitleItem? {
+        guard news.indices.contains(index) else { return nil }
+        return news[index]
+    }
+    
 }

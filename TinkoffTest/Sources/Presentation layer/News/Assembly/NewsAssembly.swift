@@ -10,24 +10,17 @@
 final class NewsAssembly {
 
     static func assembly(with view: NewsView) {
-        let interactor = NewsInteractor()
         let presenter = NewsPresenter()
-        let router = NewsRouter()
         let viewDataSource = NewsDataSource()
         
-        viewDataSource.itemsProvider = interactor
-        
-        router.transitionHandler = view
-        
-        presenter.interactor = interactor
+        viewDataSource.itemsProvider = presenter
+                
         presenter.view = view
-        presenter.router = router
+        presenter.transitionHandler = view
+        presenter.newsService = NewsService()
         
         view.output = presenter
         view.dataSource = viewDataSource
-        
-        interactor.output = presenter
-        interactor.newsService = NewsService()
     }
 
 }

@@ -8,58 +8,42 @@
 
 import Foundation
 
-
-final class NewsInteractor: NewsInteractorProtocol {
-
-    weak var output: NewsInteractorOutput!
-    var newsService: NewsServiceProtocol!
-    
-    private var news: [NewsTitleItem] = []
-
+protocol CachedNewsInteractor: class {
+    var newsService: NewsServiceProtocol! { get }
+    func fetchNews(completion: @escaping ([NewsTitleItem]?, Error?) -> Void)
 }
 
-extension NewsInteractor: NewsInteractorInput {
-
-    func obtainNews() {
-        newsService.fetchNews { [weak self] (news, error) in
-            guard let `self` = self else { return }
-            
+extension CachedNewsInteractor {
+    func fetchNews(completion: @escaping ([NewsTitleItem]?, Error?) -> Void) {
+        newsService.fetchNews { news, error in
             if let error = error {
-                self.output.didReceiveError(error)
+                completion(nil, error)
             } else {
-                self.news = news
-                self.output.didFetchNews(count: news.count)
-            }
-        }
-        reloadNews()
-    }
-    
-    func reloadNews() {
-        newsService.loadNews { [weak self] (news, error) in
-            guard let `self` = self else { return }
-            
-            if let error = error {
-                self.output.didReceiveError(error)
-            } else {
-                self.news = news
-                self.output.didObtainNews(count: news.count)
+                completion(news, error)
             }
         }
     }
-
 }
 
-extension NewsInteractor: NewsItemsProvider {
-
-    var itemsCount: Int {
-        return news.count
+extension CachedNewsInteractor where Self: Mock {
+    func fetchNews(completion: @escaping ([NewsTitleItem]?, Error?) -> Void) {
+        completion([], nil)
     }
-    
-    func item(at index: Int) -> NewsTitleItem? {
-        if news.indices.contains(index) {
-            return news[index]
+}
+
+protocol RemoteNewsInteractor: class {
+    var newsService: NewsServiceProtocol! { get }
+    func requestNews(completion: @escaping ([NewsTitleItem]?, Error?) -> Void)
+}
+
+extension RemoteNewsInteractor {
+    func requestNews(completion: @escaping ([NewsTitleItem]?, Error?) -> Void) {
+        newsService.loadNews { news, error in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                completion(news, error)
+            }
         }
-        return nil
     }
-
 }

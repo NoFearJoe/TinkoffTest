@@ -8,11 +8,15 @@
 
 import UIKit
 
+protocol Route: class {
+    var transitionHandler: TransitionHandler! { get }
+}
 
-final class NewsRouter: NewsRouterInput {
+protocol NewsItemRoute: Route {
+    func showNewsItem(_ newsItem: NewsTitleItem)
+}
 
-    var transitionHandler: TransitionHandler!
-    
+extension NewsItemRoute {
     func showNewsItem(_ newsItem: NewsTitleItem) {
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewsContentView")
         if let newsItemViewController = viewController as? NewsContentViewProtocol {
@@ -21,5 +25,4 @@ final class NewsRouter: NewsRouterInput {
         }
         transitionHandler.pushModule(with: viewController, animated: true)
     }
-
 }

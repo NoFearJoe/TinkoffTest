@@ -21,7 +21,7 @@ public class NewsTitleItem: NSManagedObject, Mappable {
         }
         
         self.id = id
-        self.text = (json["text"] as? String)?.fromHTML()?.string
+        self.text = json["text"] as? String//(json["text"] as? String)?.fromHTML()?.string
         self.publicationDate = Date.fromMilliseconds(publicationDateNumber) as NSDate
     }
     
